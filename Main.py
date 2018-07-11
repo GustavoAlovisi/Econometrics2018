@@ -1,6 +1,6 @@
-#Código Fonte para o trabalho de Tópicos Especiais em Econometria
-#Autor: Gustavo Alovisi
-#Nro: 00243669
+# Código Fonte para o trabalho de Tópicos Especiais em Econometria
+# Autor: Gustavo Alovisi
+# Nro: 00243669
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -59,14 +59,14 @@ plt.show()
 np.corrcoef(econvars.txinadimp, econvars.juros)
 
 
-adf = smtsa.adfuller(econvars.txinadimp, regression='ctt')  #'ctt' para checar a estacionariedade em tendência constante, linear e quadrática
+adf = smtsa.adfuller(econvars.txinadimp, regression='ctt')  # 'ctt' para checar a estacionariedade em tendência constante, linear e quadrática
 adfoutput_inad = pd.Series(adf[0:4], index=["Estatística do Teste:", "P-valor", "# lags", "# observacoes"])
 for key, value in adf[4].items():
         adfoutput_inad['Critical Value ({})'.format(key)] = value
 print(adfoutput_inad)
 
 
-adf = smtsa.adfuller(econvars.juros, regression='ctt')  #'ctt' para checar a estacionariedade em tendência constante, linear e quadrática
+adf = smtsa.adfuller(econvars.juros, regression='ctt')  # 'ctt' para checar a estacionariedade em tendência constante, linear e quadrática
 adfoutput_juros = pd.Series(adf[0:4], index=["Estatística do Teste:", "P-valor", "# lags", "# observacoes"])
 for key, value in adf[4].items():
         adfoutput_juros['Critical Value ({})'.format(key)] = value
@@ -96,9 +96,9 @@ graflogdiffdiff = plt.plot(logdiffdiff)
 plt.show()
 
 
-acf = tsaplots.plot_acf(logdiffdiff, alpha=0.05,  title= "Autocorrelação da 2a diferença da logaritmica de Taxa de Inadimplência")
+acf = tsaplots.plot_acf(logdiffdiff, alpha=0.05,  title="Autocorrelação da 2a diferença da logaritmica de Taxa de Inadimplência")
 
-adf_inadimp = smtsa.adfuller(logdiffdiff, regression='ctt')  #'ctt' para checar a estacionariedade em tendência constante, linear e quadrática
+adf_inadimp = smtsa.adfuller(logdiffdiff, regression='ctt')  # 'ctt' para checar a estacionariedade em tendência constante, linear e quadrática
 adfout_diff_inad = pd.Series(adf[0:4], index=["Estatística do Teste:", "P-valor", "# lags", "# observacoes"])
 for key, value in adf_inadimp[4].items():
         adfout_diff_inad['Critical Value ({})'.format(key)] = value
@@ -110,13 +110,13 @@ acf = tsaplots.plot_acf(diff_juros, alpha=0.05,  title="Autocorrelação da 1a d
 diff_diff_juros = np.diff(diff_juros)
 acf = tsaplots.plot_acf(diff_diff_juros, alpha= 0.05,  title="Autocorrelação da 1a diferença da Taxa de Juros")
 
-logdiffdiffjuros = np.log(econvars.juros).diff(14).diff().dropna()  #dif(14) devido a uma aparente sazonalidade em nossa série
+logdiffdiffjuros = np.log(econvars.juros).diff(14).diff().dropna()  # dif(14) devido a uma aparente sazonalidade em nossa série
 acf = tsaplots.plot_acf(logdiffdiffjuros, alpha= 0.05,  title="Autocorrelação da 1a diferença da Taxa de Juros")
 
 graflogdiffdiffjuros = plt.plot(logdiffdiffjuros)
 plt.show()
 
-adf_juros = smtsa.adfuller(logdiffdiffjuros, regression='ctt') ## 'ctt' para checar a estacionariedade em tendência constante, linear e quadrática
+adf_juros = smtsa.adfuller(logdiffdiffjuros, regression='ctt')  #'ctt' para checar a estacionariedade em tendência constante, linear e quadrática
 adfout_diff_juros = pd.Series(adf[0:4], index=["Estatística do Teste:", "P-valor", "# lags", "# observacoes"])
 for key, value in adf_juros[4].items():
         adfout_diff_juros['Critical Value ({})'.format(key)] = value
@@ -137,12 +137,12 @@ for x in ljung[1]:
     y += x
 resul_lbox = y/len(ljung[1])
 print("P-valor do teste:", resul_lbox)
-#print(ljung[1])
+# print(ljung[1])
 
 coint_test = smtsa.coint(econvars.juros, econvars.txinadimp)
 print("P-valor do teste de Cointegração de Johansen: ", coint_test[1])
 
-arquivo = open("saidasrelatorio.txt", "w") ##abrindo para leitura/gravação e criando se não existir
+arquivo = open("saidasrelatorio.txt", "w")  # abrindo para leitura/gravação e criando se não existir
 arquivo.write("Resumo do Relatório Econométrico  \n")
 arquivo.write("\nTeste ADF para a Taxa de Inadimplencia:  \n")
 arquivo.write(str(adfoutput_inad))
