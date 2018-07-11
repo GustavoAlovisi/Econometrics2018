@@ -1,0 +1,71 @@
+Resumo do Relatório Econométrico  
+
+Teste ADF para a Taxa de Inadimplencia:  
+Estatística do Teste:    -2.568067
+P-valor                   0.530207
+# lags                   12.000000
+# observacoes            74.000000
+Critical Value (1%)      -4.535093
+Critical Value (5%)      -3.914770
+Critical Value (10%)     -3.603837
+dtype: float64
+
+Teste ADF para a Taxa de Juros: 
+Estatística do Teste:    -1.590822
+P-valor                   0.930455
+# lags                   12.000000
+# observacoes            74.000000
+Critical Value (1%)      -4.535093
+Critical Value (5%)      -3.914770
+Critical Value (10%)     -3.603837
+dtype: float64
+
+Teste ADF para a Taxa de Indimplencia Diferenciada:
+Estatística do Teste:    -1.590822
+P-valor                   0.930455
+# lags                   12.000000
+# observacoes            74.000000
+Critical Value (1%)      -4.572198
+Critical Value (5%)      -3.933082
+Critical Value (10%)     -3.614956
+dtype: float64
+
+Teste ADF para a Taxa de Juros Diferenciada:
+Estatística do Teste:    -1.590822
+P-valor                   0.930455
+# lags                   12.000000
+# observacoes            74.000000
+Critical Value (1%)      -4.575763
+Critical Value (5%)      -3.934835
+Critical Value (10%)     -3.616018
+dtype: float64
+
+Resultado da Regressao por MQO:
+
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:              txinadimp   R-squared:                       0.096
+Model:                            OLS   Adj. R-squared:                  0.084
+Method:                 Least Squares   F-statistic:                     7.570
+Date:                Wed, 11 Jul 2018   Prob (F-statistic):            0.00753
+Time:                        11:29:02   Log-Likelihood:                 132.30
+No. Observations:                  72   AIC:                            -262.6
+Df Residuals:                      71   BIC:                            -260.3
+Df Model:                           1                                         
+Covariance Type:            nonrobust                                         
+==============================================================================
+                 coef    std err          t      P>|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+juros          0.3849      0.140      2.751      0.008       0.106       0.664
+==============================================================================
+Omnibus:                        3.428   Durbin-Watson:                   2.814
+Prob(Omnibus):                  0.180   Jarque-Bera (JB):                3.173
+Skew:                           0.179   Prob(JB):                        0.205
+Kurtosis:                       3.965   Cond. No.                         1.00
+==============================================================================
+
+Warnings:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+
+Resultado do Teste de Ljung-Box para autocorrelação dos resíduos:
+Pvalor do teste:1.82528098112e-05
