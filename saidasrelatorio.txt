@@ -48,7 +48,7 @@ Dep. Variable:              txinadimp   R-squared:                       0.096
 Model:                            OLS   Adj. R-squared:                  0.084
 Method:                 Least Squares   F-statistic:                     7.570
 Date:                Wed, 11 Jul 2018   Prob (F-statistic):            0.00753
-Time:                        11:29:02   Log-Likelihood:                 132.30
+Time:                        12:00:48   Log-Likelihood:                 132.30
 No. Observations:                  72   AIC:                            -262.6
 Df Residuals:                      71   BIC:                            -260.3
 Df Model:                           1                                         
