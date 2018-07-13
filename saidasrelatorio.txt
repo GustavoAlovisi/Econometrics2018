@@ -21,23 +21,23 @@ Critical Value (10%)     -3.603837
 dtype: float64
 
 Teste ADF para a Taxa de Indimplencia Diferenciada:
-Estatística do Teste:    -1.590822
-P-valor                   0.930455
-# lags                   12.000000
-# observacoes            74.000000
+Estatística do Teste:    -4.692564
+P-valor                   0.003297
+# lags                   10.000000
+# observacoes            61.000000
 Critical Value (1%)      -4.572198
 Critical Value (5%)      -3.933082
 Critical Value (10%)     -3.614956
 dtype: float64
 
 Teste ADF para a Taxa de Juros Diferenciada:
-Estatística do Teste:    -1.590822
-P-valor                   0.930455
-# lags                   12.000000
-# observacoes            74.000000
-Critical Value (1%)      -4.575763
-Critical Value (5%)      -3.934835
-Critical Value (10%)     -3.616018
+Estatística do Teste:    -4.937883
+P-valor                   0.000267
+# lags                   11.000000
+# observacoes            60.000000
+Critical Value (1%)      -4.118173
+Critical Value (5%)      -3.486383
+Critical Value (10%)     -3.171337
 dtype: float64
 
 Resultado da Regressao por MQO:
@@ -47,8 +47,8 @@ Resultado da Regressao por MQO:
 Dep. Variable:              txinadimp   R-squared:                       0.096
 Model:                            OLS   Adj. R-squared:                  0.084
 Method:                 Least Squares   F-statistic:                     7.570
-Date:                Wed, 11 Jul 2018   Prob (F-statistic):            0.00753
-Time:                        11:29:10   Log-Likelihood:                 132.30
+Date:                Thu, 12 Jul 2018   Prob (F-statistic):            0.00753
+Time:                        22:44:38   Log-Likelihood:                 132.30
 No. Observations:                  72   AIC:                            -262.6
 Df Residuals:                      71   BIC:                            -260.3
 Df Model:                           1                                         

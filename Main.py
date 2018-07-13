@@ -156,3 +156,4 @@ arquivo.write("\n\nResultado da Regressao por MQO:\n")
 arquivo.write("\n" + str(result_reg.summary()))
 arquivo.write("\n\nResultado do Teste de Ljung-Box para autocorrelação dos resíduos:\n")
 arquivo.write("Pvalor do teste:" + str(resul_lbox))
+arqiovo.close() ##fechando o arquivo
