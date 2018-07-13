@@ -47,8 +47,8 @@ Resultado da Regressao por MQO:
 Dep. Variable:              txinadimp   R-squared:                       0.096
 Model:                            OLS   Adj. R-squared:                  0.084
 Method:                 Least Squares   F-statistic:                     7.570
-Date:                Thu, 12 Jul 2018   Prob (F-statistic):            0.00753
-Time:                        22:44:38   Log-Likelihood:                 132.30
+Date:                Fri, 13 Jul 2018   Prob (F-statistic):            0.00753
+Time:                        11:51:38   Log-Likelihood:                 132.30
 No. Observations:                  72   AIC:                            -262.6
 Df Residuals:                      71   BIC:                            -260.3
 Df Model:                           1                                         
@@ -69,3 +69,12 @@ Warnings:
 
 Resultado do Teste de Ljung-Box para autocorrelação dos resíduos:
 Pvalor do teste:1.82528098112e-05
+
+Teste de Heterocedasticidade de Breusch-Pagan:
+Pvalor do teste:0.408559448489
+
+Teste de Jarque-Bera da Normalidade dos Resíduos:
+Pvalor do teste:0.204596690018
+
+Teste de Cointegração de Johansen:
+Pvalor do teste:0.351035590398

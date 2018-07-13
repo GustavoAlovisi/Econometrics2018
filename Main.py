@@ -10,7 +10,9 @@ import sqlite3
 import statsmodels.tsa.stattools as smtsa
 import statsmodels.graphics.tsaplots as tsaplots
 import statsmodels.stats.diagnostic as smstats
-
+from scipy.stats import chi2
+import statsmodels.graphics.gofplots as smgof
+import statsmodels.stats.stattools as smtools
 
 jurosmedmensal = pd.read_csv('http://api.bcb.gov.br/dados/serie/bcdata.sgs.25433/dados?formato=csv',
                   sep=';', encoding='utf-8', decimal=',')
@@ -21,6 +23,8 @@ txinadimplencia = pd.read_csv('http://api.bcb.gov.br/dados/serie/bcdata.sgs.2108
 jurosmedmensal.head()
 txinadimplencia.head()
 
+
+## criação de um dataframe com todos os dados pertinentes
 txinadimplencia.columns = ['data1', 'txinadimp']
 jurosmedmensal.columns = ['data2', 'juros']
 dataframe = [txinadimplencia, jurosmedmensal]
@@ -28,6 +32,7 @@ dataframe = pd.concat(dataframe, 1)
 dataframe = dataframe.drop('data2', 1)
 dataframe.head()
 
+## criação de um banco de dados para nosso trabalho via SQLite
 database = sqlite3.connect('dados.db')
 c = database.cursor()
 c.execute('''CREATE TABLE IF NOT EXISTS variaveis (data text, txjuros real, inadimplencia real)''')
@@ -35,10 +40,12 @@ c.execute('''CREATE TABLE IF NOT EXISTS variaveis (data text, txjuros real, inad
 #c.executemany('INSERT into variaveis VALUES (?,?,?)', dataframe)
 dataframe.to_sql("variaveis", database, if_exists='replace')
 
+## carregar do DB
 econvars = pd.read_sql_query("SELECT * FROM variaveis;", database)
 econvars.head()
 
 
+## análise de nossos dados
 plt.subplot(121)
 grafJuros = plt.plot(econvars.data1, econvars.juros)
 plt.title('Média da taxa de Juros Mensal')
@@ -95,7 +102,7 @@ logdiffdiff = logdiffdiff[13:]
 graflogdiffdiff = plt.plot(logdiffdiff)
 plt.show()
 
-
+## Plots de autocorrelação e diff, testes ADF
 acf = tsaplots.plot_acf(logdiffdiff, alpha=0.05,  title="Autocorrelação da 2a diferença da logaritmica de Taxa de Inadimplência")
 
 adf_inadimp = smtsa.adfuller(logdiffdiff, regression='ctt')  # 'ctt' para checar a estacionariedade em tendência constante, linear e quadrática
@@ -122,15 +129,32 @@ for key, value in adf_juros[4].items():
         adfout_diff_juros['Critical Value ({})'.format(key)] = value
 print(adfout_diff_juros)
 
-
+##Ajustamento da regressão por MQO
 result_reg = sm.OLS(logdiffdiff, logdiffdiffjuros, missing='drop').fit()
 print(result_reg.summary())
 
+## Implementação de um teste de Breusch-Pagan para heterocedasticidade assim como em stasmodels het_breuschpagan (estava dando um erro)
+y = np.asarray(result_reg.resid**2)
+x = np.asarray(logdiffdiffjuros)
+resultadoBP = sm.OLS(y, x).fit()
+fval = resultadoBP.fvalue
+fpval = resultadoBP.f_pvalue
+lm = 71*resultadoBP.rsquared
+lmtest = chi2.sf(lm, 70)
+print("P-valor do teste:", fpval)
+print("Teste LM:", lmtest)
 
-##log2diffdiffjuros = np.asarray([logdiffdiffjuros, 1])
-##smstats.het_breuschpagan(resultado.resid, log2diffdiffjuros)
-##logdiffdiffjuros.shape
+## QQ plot da normalidade dos resíduos
+qqplot = smgof.qqplot(result_reg.resid, line = 'q')
+plt.show()
 
+## Teste de JB para a normalidade dos resíduos
+jarque_bera = smtools.jarque_bera(result_reg.resid)
+print("P-valor do teste: ", jarque_bera[1])
+print("Skewness estimada: ", jarque_bera[2])
+print("Kurtose estimada: ", jarque_bera[3])
+
+## Teste de ljung-box para a autocrrelação dos resíduos
 ljung = smstats.acorr_ljungbox(result_reg.resid)
 y=0
 for x in ljung[1]:
@@ -139,10 +163,13 @@ resul_lbox = y/len(ljung[1])
 print("P-valor do teste:", resul_lbox)
 # print(ljung[1])
 
+
+## Teste de Cointegração de Johansen
 coint_test = smtsa.coint(econvars.juros, econvars.txinadimp)
 print("P-valor do teste de Cointegração de Johansen: ", coint_test[1])
 
-arquivo = open("saidasrelatorio.txt", "w")  # abrindo para leitura/gravação e criando se não existir
+## Salvar o output em arquivo de texto
+arquivo = open("saidasrelatorio.txt", "w") ##abrindo para leitura/gravação e criando se não existir
 arquivo.write("Resumo do Relatório Econométrico  \n")
 arquivo.write("\nTeste ADF para a Taxa de Inadimplencia:  \n")
 arquivo.write(str(adfoutput_inad))
@@ -156,4 +183,10 @@ arquivo.write("\n\nResultado da Regressao por MQO:\n")
 arquivo.write("\n" + str(result_reg.summary()))
 arquivo.write("\n\nResultado do Teste de Ljung-Box para autocorrelação dos resíduos:\n")
 arquivo.write("Pvalor do teste:" + str(resul_lbox))
-arqiovo.close() ##fechando o arquivo
+arquivo.write("\n\nTeste de Heterocedasticidade de Breusch-Pagan:\n")
+arquivo.write("Pvalor do teste:" + str(fpval))
+arquivo.write("\n\nTeste de Jarque-Bera da Normalidade dos Resíduos:\n")
+arquivo.write("Pvalor do teste:" + str(jarque_bera[1]))
+arquivo.write("\n\nTeste de Cointegração de Johansen:\n")
+arquivo.write("Pvalor do teste:" + str(coint_test[1]))
+arquivo.close() ##fechando o arquivo
